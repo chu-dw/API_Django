@@ -43,6 +43,15 @@ class DoneTodosAPIView(APIView):
         dones = Todo.objects.filter(complete=True)
         serializer = TodoSimpleSerializer(dones,many=True)
         return Response(serializer.data, status = status.HTTP_200_OK)
+
+
+class DoneTodoAPIView(APIView):
+    def get(self, request, pk):
+        done = get_object_or_404(Todo,id=pk)
+        done.complete = True
+        done.save()
+        serializer = TodoDetailSerializer(done)
+        return Response(status=status.HTTP_200_OK)
     
 
 
